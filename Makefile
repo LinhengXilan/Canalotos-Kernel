@@ -42,6 +42,8 @@ export OBJCOPY_FLAGS := -O binary \
 
 SUBDIRS := Shell Kernel Lib Graphics Memory Bootloader
 
+.PHONT: all clean
+
 all: $(SUBDIRS)
 	printf "\tLD\t%s\n" Kernel.elf
 	$(LD) --start-group $(sort $(shell find $(INTERMEDIATE_PATH) -type f -name '*.a')) --end-group $(LD_FLAGS) -o $(INTERMEDIATE_PATH)Kernel.elf
@@ -54,3 +56,7 @@ $(SUBDIRS): mkdir
 mkdir:
 	mkdir -p $(BINARY_PATH)
 	mkdir -p $(INTERMEDIATE_PATH)
+
+clean:
+	rm -r $(INTERMEDIATE_PATH)
+	rm -r $(BINARY_PATH)

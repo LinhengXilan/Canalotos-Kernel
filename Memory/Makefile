@@ -1,9 +1,9 @@
 # @file Memory/Makefile
 # @author LinhengXilan
-# @version 0.0.0.3
-# @date 2026-6-6
+# @version 0.0.0.4
+# @date 2026-6-8
 
-#.SILENT:
+.SILENT:
 
 COMPONENT := Memory
 COMPONENT_INTERMEDIATE_PATH := $(INTERMEDIATE_PATH)$(COMPONENT)/

@@ -41,10 +41,10 @@ namespace Shell
 				break;
 			case 32 ... 126:
 			{
-				uint16 y = _CursorY * 16 + 4;
+				uint16 y = _CursorY * 16;
 				for (int j = 0; j < 16; ++j)
 				{
-					uint16 x = _CursorX * 8 + 4;
+					uint16 x = _CursorX * 8;
 					for (int k = 0; k < 8; ++k)
 					{
 						if (ascii[j] & (0b10000000 >> k))
@@ -58,6 +58,11 @@ namespace Shell
 			}
 			default:
 				break;
+			}
+			if (_CursorX == _CursorXMax)
+			{
+				++_CursorY;
+				_CursorX = 0;
 			}
 		}
 	}
