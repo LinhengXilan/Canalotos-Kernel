@@ -1,8 +1,8 @@
 /**
  * @file Graphics/Graphics.cpp
  * @author LinhengXilan
- * @version 0.0.0.4
- * @date 2026-6-8
+ * @version 0.0.0.5
+ * @date 2026-6-25
  */
 
 #include <Graphics/Graphics.h>
@@ -16,7 +16,7 @@ namespace Graphics
 		return &GraphicsInstance;
 	}
 
-	void Graphics::Initialize(Bootloader::GraphicsData graphics)
+	void Graphics::Initialize(EfiGraphicsData graphics)
 	{
 		_BufferBase = graphics.FrameBufferBase;
 		_BufferSize = graphics.FrameBufferSize;

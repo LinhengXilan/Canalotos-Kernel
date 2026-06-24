@@ -1,8 +1,8 @@
 /**
  * @file Include/Graphics/Graphics.h
  * @author LinhengXilan
- * @version 0.0.0.4
- * @date 2026-6-8
+ * @version 0.0.0.5
+ * @date 2026-6-25
  */
 
 #ifndef __GRAPHICS_GRAPHICS_H__
@@ -18,7 +18,7 @@ namespace Graphics
 	public:
 		Graphics() = default;
 
-		void Initialize(Bootloader::GraphicsData graphics);
+		void Initialize(EfiGraphicsData graphics);
 		void WritePixel(uint32 x, uint32 y, uint32 color);
 
 	public:

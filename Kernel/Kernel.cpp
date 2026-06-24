@@ -1,56 +1,40 @@
 /**
  * @file Kernel/Kernel.cpp
  * @author LinhengXilan
- * @version 0.0.0.4
- * @date 2026-6-8
+ * @version 0.0.0.5
+ * @date 2026-6-25
  */
 
 #include <Bootloader/BootParam.h>
 #include <Graphics/Graphics.h>
 #include <Shell/Shell.h>
-#include <Shell/Print.h>
+#include <Lib/Print.h>
+#include <Memory/Memory.h>
+#include <Lib/Bss.h>
+#include <Linkage.h>
 
-extern "C"
+extern "C" int Kernel(BootParam param)
 {
-	int Kernel(Bootloader::BootParam param);
-}
-
-int Kernel(Bootloader::BootParam param)
-{
+	GetBss()->Initialize(param.KernelAddress, param.KernelSize);
 	Graphics::GetGraphics()->Initialize(param.Graphics);
-	Shell::GetShell()->Initialize();
+	GetShell()->Initialize();
+	InitPrintf();
 
-	Bootloader::MemoryData memoryData = param.Memory;
-	Bootloader::MemoryDescriptor* memory = memoryData.MemoryMap;
+	EfiMemoryData memoryData = param.Memory;
+	GetMemory()->Initialize(memoryData.MemoryMap, memoryData.MemoryMapSize / sizeof(EfiMemoryDescriptor));
+	Printf("0x%lx\n", reinterpret_cast<uint64>(GetMemory()->GetDescriptor()));
+	Printf("Type\t\t\tStartAddress\t\tSize\n");
 
-	Shell::Printf("Type\t\t\t\t\t\tPhysicalStart\t\tVirtualStart\t\tNumberOfPages\tAttribute\t");
-	Shell::Printf("Type\t\t\t\t\t\tPhysicalStart\t\tVirtualStart\t\tNumberOfPages\tAttribute\n");
-
-	for (uint64 i = 0; i < memoryData.MemoryMapSize / sizeof(*memory); ++i)
+	for (uint8 i = 0; i < GetMemory()->GetDescriptorSize(); ++i)
 	{
-		if (i % 2 == 1)
-		{
-			Shell::Printf(
-				"\t\t\t%s\t0x%16x\t0x%16x\t0x%8x\t\t%x\n",
-				Bootloader::GetMemoryTypeName(memory[i].Type),
-				memory[i].PhysicalStart,
-				memory[i].VirtualStart,
-				memory[i].NumberOfPages,
-				memory[i].Attribute
-			);
-		}
-		else
-		{
-			Shell::Printf(
-				"%s\t0x%16x\t0x%16x\t0x%8x\t\t%x",
-				Bootloader::GetMemoryTypeName(memory[i].Type),
-				memory[i].PhysicalStart,
-				memory[i].VirtualStart,
-				memory[i].NumberOfPages,
-				memory[i].Attribute
-			);
-		}
+		Printf(
+			"%s\t\t0x%16lx\t0x%16lx\n",
+			Memory::GetMemoryTypeString(GetMemory()->GetDescriptor()[i].type),
+			GetMemory()->GetDescriptor()[i].Address,
+			GetMemory()->GetDescriptor()[i].Size
+		);
 	}
+
 	while (1)
 	{
 	}

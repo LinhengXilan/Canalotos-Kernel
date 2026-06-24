@@ -1,8 +1,8 @@
 /**
  * @file Kernel.lds
  * @author LinhengXilan
- * @version 0.0.0.4
- * @date 2026-6-8
+ * @version 0.0.0.5
+ * @date 2026-6-25
  */
 
 OUTPUT_FORMAT("elf64-x86-64")
@@ -18,6 +18,7 @@ PHDRS {
 SECTIONS
 {
 	. = 0;
+	_kernel_start = .;
 	.text :
 	{
 		_text = .;
@@ -37,11 +38,5 @@ SECTIONS
 		*(.data)
 		_edata = .;
 	} : data
-	.bss :
-	{
-		_bss = .;
-		*(.bss)
-		_ebss = .;
-	} : data
-	_end = .;
+	_kernel_end = .;
 }

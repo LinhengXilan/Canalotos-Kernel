@@ -1,8 +1,8 @@
 /**
  * @file Include/Types.h
  * @author LinhengXilan
- * @version 0.0.0.4
- * @date 2026-6-8
+ * @version 0.0.0.5
+ * @date 2026-6-25
  */
 
 #ifndef __TYPES_H__
@@ -20,5 +20,7 @@ using uint64 = unsigned long long;
 
 using maxint = int64;
 using maxuint = uint64;
+
+#define NULL (uint64)0;
 
 #endif
